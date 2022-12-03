@@ -1,0 +1,22 @@
+server:
+  port: 9001
+swagger:
+  controllerPackage: com.springboot.cloud.Controller.TestApiController
+  basic:
+    enable: true
+    username: admin
+    password: admin
+spring:
+  application:
+    name: test-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:127.0.0.1:8848}
+    main:
+      allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
