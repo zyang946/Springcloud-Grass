@@ -19,10 +19,7 @@
         <module>auth/authentication-server</module>
         <module>auth/authentication-client</module>
         <module>auth/authorization-server</module>
-        <module>monitor</module>
-        <module>gateway/gateway-admin</module>
-        <module>gateway/gateway-web</module>
-        <module>gateway/gateway-mini</module>
+        <module>gateway</module>
     </modules>
 
 
