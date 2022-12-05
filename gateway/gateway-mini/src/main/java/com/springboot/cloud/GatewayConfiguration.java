@@ -7,7 +7,14 @@ import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
+import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
+import lombok.Data;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +26,8 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.result.view.ViewResolver;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -37,6 +46,37 @@ public class GatewayConfiguration {
 
     private final List<ViewResolver> viewResolvers;
     private final ServerCodecConfigurer serverCodecConfigurer;
+
+    @Value("${spring.cloud.sentinel.flow.status}")
+    private Integer flowStatus;
+    @Value("${spring.cloud.sentinel.flow.message}")
+    private String flowMsg;
+    /**
+     * 降级
+     */
+    @Value("${spring.cloud.sentinel.degrade.status}")
+    private Integer degradeStatus;
+    @Value("${spring.cloud.sentinel.degrade.message}")
+    private String degradeMsg;
+    /**
+     * 热点参数限流
+     */
+    @Value("${spring.cloud.sentinel.param.flow.status}")
+    private Integer paramFlowStatus;
+    @Value("${spring.cloud.sentinel.param.flow.message}")
+    private String paramFlowMsg;
+    /**
+     * 系统规则（负载/...不满足要求）
+     */
+    @Value("${spring.cloud.sentinel.system.block.status}")
+    private Integer systemBlockStatus;
+    @Value("${spring.cloud.sentinel.system.block.message}")
+    private String systemBlockMsg;
+
+    @Value("${spring.cloud.sentinel.authority.status}")
+    private Integer authorityStatus;
+    @Value("${spring.cloud.sentinel.authority.message}")
+    private String authorityMsg;
 
     public GatewayConfiguration(ObjectProvider<List<ViewResolver>> viewResolversProvider,
                                 ServerCodecConfigurer serverCodecConfigurer) {
@@ -74,10 +114,7 @@ public class GatewayConfiguration {
     @PostConstruct
     public void doInit() {
         initGatewayRules();
-//        initBlockHandlers();
-
-        System.out.println("===== begin to do flow control");
-        System.out.println("only 20 requests per second can pass");
+        initBlockHandlers();
     }
 
     /**
@@ -85,16 +122,53 @@ public class GatewayConfiguration {
      *
      * <p>默认是返回错误信息： “Blocked by Sentinel: FlowException”。 这里自定义了异常处理，封装了自然语句。</p>
      */
-    private void initBlockHandlers() {
-        BlockRequestHandler blockRequestHandler = (serverWebExchange, throwable) -> {
-            Map<Object, Object> map = new HashMap<>();
-            map.put("code", 0);
-            map.put("message", "接口被限流了");
-            return ServerResponse.status(HttpStatus.OK).
-                    contentType(MediaType.APPLICATION_JSON_UTF8).
-                    body(BodyInserters.fromObject(map));
+//    private void initBlockHandlers() {
+//        BlockRequestHandler blockRequestHandler = (serverWebExchange, throwable) -> {
+//            Map<Object, Object> map = new HashMap<>();
+//            map.put("code", 555);
+//            map.put("message", "1接口被限流了");
+//            return ServerResponse.status(HttpStatus.OK).
+//                    contentType(MediaType.APPLICATION_JSON_UTF8).
+//                    body(BodyInserters.fromObject(map));
+//        };
+//        GatewayCallbackManager.setBlockHandler(blockRequestHandler);
+//    }
+    public void initBlockHandlers() {
+        BlockRequestHandler blockRequestHandler = new BlockRequestHandler() {
+            @Override
+            public Mono<ServerResponse> handleRequest(ServerWebExchange serverWebExchange, Throwable e) {
+
+                SentinelErrorMsg sentinelErrorMsg = new SentinelErrorMsg();
+                // 流控异常
+                if (e instanceof FlowException) {
+                    sentinelErrorMsg.setMsg(flowMsg);
+                    sentinelErrorMsg.setStatus(flowStatus);
+                    // 降级异常
+                } else if (e instanceof DegradeException) {
+                    sentinelErrorMsg.setMsg(degradeMsg);
+                    sentinelErrorMsg.setStatus(degradeStatus);
+                    // 参数流控异常
+                } else if (e instanceof ParamFlowException) {
+                    sentinelErrorMsg.setMsg(paramFlowMsg);
+                    sentinelErrorMsg.setStatus(paramFlowStatus);
+                    // 系统堵塞异常
+                } else if (e instanceof  SystemBlockException) {
+                    sentinelErrorMsg.setMsg(systemBlockMsg);
+                    sentinelErrorMsg.setStatus(systemBlockStatus);
+                    // 权限异常
+                } else if (e instanceof AuthorityException) {
+                    sentinelErrorMsg.setMsg(authorityMsg);
+                    sentinelErrorMsg.setStatus(authorityStatus);
+                }
+
+                return ServerResponse
+                        .status(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromObject(sentinelErrorMsg));
+            }
         };
         GatewayCallbackManager.setBlockHandler(blockRequestHandler);
+
     }
 
 
@@ -102,19 +176,32 @@ public class GatewayConfiguration {
      * 初始化流量控制规则
      *
      * <p>Sentinal 的流量控制只能基于 route 或自定义 api 分组，这里的限流还是基于 application.yml 中定义的路由（即每个服务）采用 QPS 流量控制策略。
-     * 当前是简单的对转发到 admin-basic-info-service 服务的流量做了QPS限制，每秒不超过20个请求。</p>
      */
     private void initGatewayRules() {
         Set<GatewayFlowRule> rules = new HashSet<>();
 
-        // 对于转发到 admin-basic-info 的请求 set limit qps to 20
+        // 对于转发到 test-api 的请求 set limit qps to 20
         // qps 超过 20 直接拒绝
         rules.add(new GatewayFlowRule("test-api") //资源名称，对应路由 id
                 .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
-                .setCount(20) // 限流qps阈值
+                .setCount(2) // 限流qps阈值
                 .setIntervalSec(1) // 统计时间窗口，单位是秒，默认是 1 秒
         );
 
         GatewayRuleManager.loadRules(rules);
+    }
+
+
+    /**
+     * Error message
+     */
+    @Data
+    static class SentinelErrorMsg {
+        private Integer status;
+        private String msg;
+    }
+    @Bean
+    public ServerCodecConfigurer serverCodecConfigurer() {
+        return ServerCodecConfigurer.create();
     }
 }

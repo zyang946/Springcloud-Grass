@@ -1,6 +1,5 @@
 server:
-  port: 18888  # HTTP (Tomcat) port
-
+  port: 10008
 spring:
   application:
     name: gateway
@@ -8,7 +7,30 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_ADDRS:127.0.0.1:8848}
+    sentinel:
+      authority:
+        status: 105
+        message: "权限异常"
+      system:
+        block:
+          status: 104
+          message: "系统堵塞异常"
+      param:
+        flow:
+          status: 103
+          message:  "参数流控异常"
+      degrade:
+        status: 102
+        message: "降级异常"
+      flow:
+        status: 101
+        message: "流控异常"
+      transport:
+        dashboard: ${SENTINEL_ADDRS:127.0.0.1:8888}
     gateway:
+      discovery:
+        locator:
+          enabled: false
       routes:
         - id: test-api
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:test-api}
@@ -18,3 +40,10 @@ spring:
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:test}
           predicates:
             - Path=/test/**
+  main:
+    allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
