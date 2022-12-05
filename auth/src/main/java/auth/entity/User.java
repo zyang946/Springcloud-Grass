@@ -31,10 +31,10 @@ import javax.persistence.Table;
 @Table(name = "auth_user")
 public class User implements UserDetails {
     @Id
-    @Column(name = "user_id")
+    @Column(length = 36, name = "user_id")
     private String userID;
 
-    @Column(unique = true, name = "user_name")
+    @Column(length = 36, unique = true, name = "user_name")
     private String userName;
 
     private String password;

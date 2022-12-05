@@ -18,7 +18,7 @@ spring:
       param:
         flow:
           status: 103
-          message:  "参数流控异常"
+          message: "参数流控异常"
       degrade:
         status: 102
         message: "降级异常"
@@ -32,6 +32,14 @@ spring:
         locator:
           enabled: false
       routes:
+        - id: auth-user
+          uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:auth}
+          predicates:
+            - Path=/auth/**
+        - id: auth
+          uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:auth}
+          predicates:
+            - Path=/users/**
         - id: test-api
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:test-api}
           predicates:
