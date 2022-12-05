@@ -16,10 +16,6 @@
         <module>common</module>
         <module>auth</module>
         <module>gateway</module>
-        <module>monitor</module>
-        <module>gateway/gateway-admin</module>
-        <module>gateway/gateway-web</module>
-        <module>gateway/gateway-mini</module>
     </modules>
 
 
@@ -111,27 +107,27 @@
     </dependencyManagement>
 
     <repositories>
-        <auth.repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/libs-milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </auth.repository>
-        <auth.repository>
+        </repository>
+        <repository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </auth.repository>
+        </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>auth.repository.spring.release</id>
+            <id>repository.spring.release</id>
             <name>Spring GA Repository</name>
             <url>https://repo.spring.io/plugins-release/</url>
         </pluginRepository>
@@ -171,7 +167,7 @@
         <!--配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-alibaba-nacos-auth.config</artifactId>
+            <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
         </dependency>
         <!--熔断降级-->
         <dependency>
