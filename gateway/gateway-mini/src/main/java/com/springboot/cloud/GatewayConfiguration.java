@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -201,6 +202,7 @@ public class GatewayConfiguration {
         private String msg;
     }
     @Bean
+    @Lazy
     public ServerCodecConfigurer serverCodecConfigurer() {
         return ServerCodecConfigurer.create();
     }
