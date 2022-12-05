@@ -71,7 +71,7 @@ public class JWTUtil {
                     return true;
                 }
             };
-            // send to spring security
+            // send to spring auth.security
             return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
         }
         return null;
