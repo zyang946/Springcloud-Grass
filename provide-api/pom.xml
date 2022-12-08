@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>test-api</module>
+        <module>apply-api</module>
     </modules>
 
     <properties>

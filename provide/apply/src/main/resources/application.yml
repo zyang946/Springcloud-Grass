@@ -1,0 +1,58 @@
+server:
+  port: 8330
+spring:
+  application:
+    name: apply  #全部小写
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:127.0.0.1:8848}
+    main:
+      allow-bean-definition-overriding: true
+#####################################################################################################
+# mysql 属性配置
+  # datasource:
+  #   driver-class-name: com.mysql.jdbc.Driver
+  #   url: jdbc:mysql://127.0.0.1:3306/grass
+  #   username: root
+  #   password: root123
+  # jpa:
+  #   hibernate:
+  #     # ddl-auto: create #ddl-auto:设为create表示每次都重新建表
+  #     ddl-auto: update #ddl-auto:设为update表示每次都不会重新建表
+  #   show-sql: true
+  datasource:
+    url: jdbc:mysql://${ORDER_MYSQL_HOST:127.0.0.1}:${ORDER_MYSQL_PORT:3306}/${ORDER_MYSQL_DATABASE:grass}?useSSL=false&useUnicode=true&characterEncoding=utf-8
+    username: ${ORDER_MYSQL_USER:root}
+    password: ${ORDER_MYSQL_PASSWORD:root123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#####################################################################################################
+
+
+#####################################################################################################
+# 打印日志
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+    com.springms: DEBUG
+#####################################################################################################
+swagger:
+  controllerPackage: com.springms.cloud.controller
+  basic:
+    enable: true
+    username: admin
+    password: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
