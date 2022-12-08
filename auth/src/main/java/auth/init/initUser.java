@@ -22,10 +22,10 @@ public class initUser implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User whetherExistAdmin = userRepository.findByUserName("18373526").orElse(new User());
+        User whetherExistAdmin = userRepository.findByStudentId("18373526").orElse(new User());
         if (whetherExistAdmin.getUsername() == null) {
             User admin = User.builder()
-                    .userID(UUID.randomUUID().toString())
+                    .userId(UUID.randomUUID().toString())
                     .userName("18373526")
                     .password(passwordEncoder.encode("123456"))
                     .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))

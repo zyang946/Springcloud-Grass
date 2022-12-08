@@ -32,10 +32,26 @@ import javax.persistence.Table;
 public class User implements UserDetails {
     @Id
     @Column(length = 36, name = "user_id")
-    private String userID;
+    private String userId;
 
-    @Column(length = 36, unique = true, name = "user_name")
+    /**
+     * 学号 --- 用来登录
+     */
+    @Column(length = 36, unique = true, name = "student_id")
+    private String studentId;
+
+    @Column(length = 36, name = "user_name")
     private String userName;
+
+    private String department;
+
+    private String phone;
+
+    /**
+     * 辅导员id
+     */
+    @Column(length = 36, name = "senior_id")
+    private String seniorId;
 
     private String password;
 
@@ -49,7 +65,7 @@ public class User implements UserDetails {
     }
 
     public String getUserId() {
-        return this.userID;
+        return this.userId;
     }
 
     @Override
@@ -59,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.studentId;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.info("[loadUserByUsername][load UsernamePasswordAuthenticationToken][username: {}]", username);
-        return userRepository.findByUserName(username)
+        return userRepository.findByStudentId(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         MessageFormat.format(InfoConstant.ID_NOT_FOUND, username)
                 ));

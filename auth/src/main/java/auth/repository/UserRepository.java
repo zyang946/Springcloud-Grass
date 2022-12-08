@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, String> {
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByStudentId(String studentId);
 
-    void deleteByUserID(String userId);
+    void deleteByStudentId(String studentId);
 }
