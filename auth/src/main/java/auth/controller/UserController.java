@@ -102,6 +102,12 @@ public class UserController {
         return ResponseEntity.ok().body(new Response<>(1, "success", res));
     }
 
+    @PostMapping("/getTeachers")
+    public ResponseEntity<Response> getAllTeachers(@RequestParam String department,
+                                                   @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(new Response<>(1, "success", userService.getAllTeachers(department, headers)));
+    }
+
     @PostMapping("/deleteUser")
     public ResponseEntity<Response> deleteUserById(@RequestParam("userId") Integer userId,
                                                    @RequestHeader HttpHeaders headers) {
