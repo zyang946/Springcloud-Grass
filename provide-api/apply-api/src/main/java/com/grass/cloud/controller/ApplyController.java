@@ -44,8 +44,12 @@ public class ApplyController {
     @GetMapping("/listFrom")
     // @CrossOrigin(origins = "*")
     // @ApiOperation("findApplyList")
-    public HttpEntity findApplyList(@RequestParam(value = "from_id", required=false) String from_id,  @RequestHeader HttpHeaders headers) {
-        return ok(this.iApplyService.findAllApplys(from_id, headers));
+    public HttpEntity findApplyList(@RequestParam(value = "from_id", required=false) String from_id,
+    @RequestParam(value = "page", required=false) Integer page,  
+    @RequestParam(value = "limit", required=false) Integer limit,
+    @RequestParam(value = "sort", required=false) String sort,
+    @RequestHeader HttpHeaders headers) {
+        return ok(this.iApplyService.findAllApplys(from_id, page, limit, sort, headers));
     }
 
     @GetMapping("/listTo")
@@ -74,5 +78,13 @@ public class ApplyController {
     // @ApiOperation("addApply")
     public HttpEntity approval(@RequestHeader HttpHeaders headers, @RequestBody Apply approval){
         return ok(iApplyService.updateApply(approval, headers));
+    }
+
+    @PostMapping("/deleteApply")
+    // @CrossOrigin(origins = "*")
+    // @ApiOperation("addApply")
+    public HttpEntity delete(@RequestHeader HttpHeaders headers, @RequestBody Apply apply){
+        Integer id = apply.getId();
+        return ok(iApplyService.deleteApply(id, headers));
     }
 }

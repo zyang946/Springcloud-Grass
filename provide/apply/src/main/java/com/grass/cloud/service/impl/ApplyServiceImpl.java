@@ -49,11 +49,11 @@ public class ApplyServiceImpl implements IApplyService {
     }
 
     @Override
-    public Response findAllApplys(Integer from_id, HttpHeaders headers) {
+    public Response findAllApplys(int from_id, int page, int limit, String sort, HttpHeaders headers) {
         String serviceUrl = getServiceUrl();
         HttpEntity requestEntity = new HttpEntity(headers);
         ResponseEntity<Response> re = restTemplate.exchange(
-                serviceUrl + "/apply/listFrom?from_id=" + from_id,
+                serviceUrl + String.format("/apply/listFrom?from_id=%d&page=%d&limit=%d&sort=%s", from_id, page, limit, sort),
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);
@@ -93,6 +93,19 @@ public class ApplyServiceImpl implements IApplyService {
         HttpEntity requestEntity = new HttpEntity(apply, headers);
         ResponseEntity<Response> re = restTemplate.exchange(
                 serviceUrl + "/apply/approval",
+                HttpMethod.POST,
+                requestEntity,
+                Response.class);
+        Response result = re.getBody();
+        return result;
+    }
+
+    @Override
+    public Response deleteApply(Apply apply, HttpHeaders headers) {
+        String serviceUrl = getServiceUrl();
+        HttpEntity requestEntity = new HttpEntity(apply, headers);
+        ResponseEntity<Response> re = restTemplate.exchange(
+                serviceUrl + "/apply/deleteApply",
                 HttpMethod.POST,
                 requestEntity,
                 Response.class);
