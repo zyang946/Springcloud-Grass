@@ -1,0 +1,16 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: code-generate
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDRS:127.0.0.1:8848}
+    main:
+      allow-bean-definition-overriding: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
