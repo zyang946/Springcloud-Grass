@@ -2,7 +2,7 @@ package com.generate.code.service;
 
 import com.generate.code.entity.${name};
 import com.generate.code.util.Response;
-import org.apache.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
 
 public interface ${name}Service {
     public Response getAll${name}s(HttpHeaders headers);

@@ -8,9 +8,9 @@ spring:
     application:
         name: ${name}
     datasource:
-        url: jdbc:mysql://localhost:3306/database?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+        url: jdbc:mysql://localhost:3306/grass?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
         username: root
-        password: grass2221
+        password: root123
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
         hibernate:
