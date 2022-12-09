@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -55,8 +58,8 @@ public class UserController {
         }
     }
 
-    @PostMapping("/getUserInfo")
-    public ResponseEntity<Response> getUserInfoById(@RequestBody String id, @RequestHeader HttpHeaders headers) {
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<Response> getUserInfoById(@RequestParam String id, @RequestHeader HttpHeaders headers) {
         logger.info("[Get user info by studentId][studentId: {}]", id);
         try {
             HashMap<String, Object> map = new HashMap<>();
@@ -102,14 +105,14 @@ public class UserController {
         return ResponseEntity.ok().body(new Response<>(1, "success", res));
     }
 
-    @PostMapping("/getTeachers")
-    public ResponseEntity<Response> getAllTeachers(@RequestBody String department,
+    @GetMapping("/getTeachers")
+    public ResponseEntity<Response> getAllTeachers(@RequestParam String department,
                                                    @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(new Response<>(1, "success", userService.getAllTeachers(department, headers)));
     }
 
-    @PostMapping("/deleteUser")
-    public ResponseEntity<Response> deleteUserById(@RequestBody Integer userId,
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<Response> deleteUserById(@PathVariable("userId") Integer userId,
                                                    @RequestHeader HttpHeaders headers) {
         logger.info("[deleteUserById][Delete user][userId: {}]", userId);
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
