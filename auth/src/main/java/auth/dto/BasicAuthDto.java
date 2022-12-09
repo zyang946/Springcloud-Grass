@@ -13,6 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class BasicAuthDto implements Serializable {
     private static final long serialVersionUID = -8489501276234472430L;
-    private String id;
+    private String username;
     private String password;
 }

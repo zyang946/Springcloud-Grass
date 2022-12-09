@@ -44,7 +44,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Response> getToken(@RequestBody BasicAuthDto dao, @RequestHeader HttpHeaders headers) {
-        logger.info("Login request of username: {}", dao.getId());
+        logger.info("Login request of username: {}", dao.getUsername());
         try {
             Response<?> res = tokenService.getToken(dao, headers);
             return ResponseEntity.ok(res);

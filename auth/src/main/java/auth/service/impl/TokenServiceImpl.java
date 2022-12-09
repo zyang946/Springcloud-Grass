@@ -41,7 +41,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Response getToken(BasicAuthDto dto, HttpHeaders headers) {
-        String id = dto.getId();
+        String id = dto.getUsername();
         String password = dto.getPassword();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id,
                 password);
