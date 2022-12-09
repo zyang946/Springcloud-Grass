@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers(PageDto pageDto, HttpHeaders headers) {
         String sort = pageDto.getSort();
         // 按照id递增
-        Sort mySort = null;
+        Sort mySort;
         if (sort.equals("+id")) {
             mySort = Sort.by(Sort.Direction.ASC, "studentId");
         } else {
@@ -79,6 +79,9 @@ public class UserServiceImpl implements UserService {
             String studentId = pageDto.getId();
             String userName = pageDto.getName();
             String department = pageDto.getDepartment();
+            LOGGER.info("[studentId, {}][userName, {}][department, {}]", studentId, userName, department);
+            LOGGER.info("[studentId, {}][userName, {}][department, {}]", StringUtils.isNotBlank(studentId),
+                    StringUtils.isNotBlank(userName), StringUtils.isNotBlank(department));
             if (StringUtils.isNotBlank(studentId)) {
                 predicate.getExpressions().add(
                         criteriaBuilder.equal(root.get("studentId"), studentId)
