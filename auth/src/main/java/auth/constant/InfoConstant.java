@@ -20,4 +20,6 @@ public class InfoConstant {
     public static final String REVIEW_NAME = "出入校审批";
     public static final String MANAGE_KEY = "manage";
     public static final String MANAGE_NAME = "出入校权限管理";
+    public static final String DEV_KEY = "dev";
+    public static final String DEV_NAME = "后台管理";
 }

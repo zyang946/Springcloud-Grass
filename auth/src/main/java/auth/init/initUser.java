@@ -58,6 +58,11 @@ public class initUser implements CommandLineRunner {
                     .name(InfoConstant.APPLY_NAME)
                     .build();
             set.add(menusDto);
+            menusDto = MenusDto.builder()
+                    .menuKey(InfoConstant.DEV_KEY)
+                    .name(InfoConstant.DEV_NAME)
+                    .build();
+            set.add(menusDto);
             role = RoleToMenu.builder()
                     .role(AuthConstant.ROLE_ADMIN)
                     .description("我是无敌的管理员")

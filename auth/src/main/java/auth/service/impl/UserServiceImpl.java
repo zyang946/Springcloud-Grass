@@ -283,6 +283,13 @@ public class UserServiceImpl implements UserService {
                         .build();
                 set.add(menusDto);
             }
+            if (str.equals(InfoConstant.DEV_KEY)) {
+                MenusDto menusDto = MenusDto.builder()
+                        .menuKey(InfoConstant.DEV_KEY)
+                        .name(InfoConstant.DEV_NAME)
+                        .build();
+                set.add(menusDto);
+            }
         }
         return set;
     }
