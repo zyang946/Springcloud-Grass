@@ -231,6 +231,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Response deleteRole(Integer id) {
         roleRepository.deleteByUid(id);
         return new Response<>(1, "success", 0);
