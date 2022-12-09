@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/getUserInfo")
-    public ResponseEntity<Response> getUserInfoById(@RequestParam("id") String id, @RequestHeader HttpHeaders headers) {
+    public ResponseEntity<Response> getUserInfoById(@RequestBody String id, @RequestHeader HttpHeaders headers) {
         logger.info("[Get user info by studentId][studentId: {}]", id);
         try {
             HashMap<String, Object> map = new HashMap<>();
@@ -103,13 +103,13 @@ public class UserController {
     }
 
     @PostMapping("/getTeachers")
-    public ResponseEntity<Response> getAllTeachers(@RequestParam String department,
+    public ResponseEntity<Response> getAllTeachers(@RequestBody String department,
                                                    @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(new Response<>(1, "success", userService.getAllTeachers(department, headers)));
     }
 
     @PostMapping("/deleteUser")
-    public ResponseEntity<Response> deleteUserById(@RequestParam("userId") Integer userId,
+    public ResponseEntity<Response> deleteUserById(@RequestBody Integer userId,
                                                    @RequestHeader HttpHeaders headers) {
         logger.info("[deleteUserById][Delete user][userId: {}]", userId);
         return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
