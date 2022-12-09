@@ -44,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
         String id = dto.getId();
         String password = dto.getPassword();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id,
-                passwordEncoder.encode(password));
+                password);
         try {
             authenticationManager.authenticate(token);
         } catch (AuthenticationException e) {

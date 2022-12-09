@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
                 .department(dto.getDepartment())
                 .phone(dto.getPhone())
                 .seniorId(dto.getSeniorId())
-                .password(passwordEncoder.encode(InfoConstant.DEFAULT_PASSWORD))
+                .password(InfoConstant.DEFAULT_PASSWORD)
                 .roles(dto.getRoles())
                 .build();
         try {

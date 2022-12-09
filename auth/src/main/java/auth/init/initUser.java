@@ -27,7 +27,7 @@ public class initUser implements CommandLineRunner {
             User admin = User.builder()
                     .userId(1)
                     .userName("root")
-                    .password(passwordEncoder.encode(InfoConstant.DEFAULT_PASSWORD))
+                    .password(InfoConstant.DEFAULT_PASSWORD)
                     .roles(new HashSet<>(Collections.singletonList(AuthConstant.ROLE_ADMIN)))
                     .build();
             userRepository.save(admin);
