@@ -11,9 +11,9 @@
     <name>cloud</name>
     <description>Demo project for Spring Cloud</description>
     <modules>
+        <module>common</module>
         <module>provide-api</module>
         <module>provide</module>
-        <module>common</module>
         <module>auth</module>
         <module>gateway</module>
     </modules>

@@ -1,6 +1,8 @@
 package com.grass.cloud.mapper;
 
 import com.grass.cloud.entity.Apply;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
@@ -35,4 +37,7 @@ public interface IApplyMapper {
 
     @Update("UPDATE apply SET from_id=#{from_id}, to_id=#{to_id}, from_time=#{from_id}, to_time=#{to_time}, start_time=#{start_time}, end_time=#{end_time}, destination=#{destination}, reason=#{reason}, comment=#{comment}, status=#{status} WHERE id=#{id}")
     int updateApply(Apply apply);
+
+    @Delete("DELETE from apply WHERE id=#{id}")
+    int deleteApply(Integer id);
 }
