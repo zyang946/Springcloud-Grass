@@ -3,6 +3,8 @@ package com.grass.cloud.entity;
 
 import javax.persistence.*;
 
+import lombok.Data;
+
 /**
  *
  * Mybatis 需要加上这些注解才可以使用，不然启动都会报错；
@@ -10,6 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "apply")
+@Data
 public class Apply {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
