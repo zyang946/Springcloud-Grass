@@ -100,7 +100,7 @@ public class UserController {
                     .phone(user.getPhone())
                     .to_id(user.getSeniorId())
                     .to_name(userService.getUserInfoById(user.getSeniorId(), headers) != null ?
-                            userService.getUserInfoById(user.getSeniorId(), headers).getUsername() : null)
+                            userService.getUserInfoById(user.getSeniorId(), headers).getRealUserName() : null)
                     .roles(new ArrayList<>(user.getRoles())).build();
             userList.add(userWithSeniorDto);
         }
