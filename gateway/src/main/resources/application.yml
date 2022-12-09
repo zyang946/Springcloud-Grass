@@ -40,6 +40,10 @@ spring:
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:auth}
           predicates:
             - Path=/users/**
+        - id: code-generate
+          uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:code-generate}
+          predicates:
+            - Path=/generate/**
         - id: test-api
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:test-api}
           predicates:

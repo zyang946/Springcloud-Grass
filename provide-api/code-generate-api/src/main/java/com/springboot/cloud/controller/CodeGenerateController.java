@@ -11,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/code_generate")
+@RequestMapping("/generate")
 public class CodeGenerateController {
     @Autowired
     private CodeGenerateService codeGenerateService;
     private static final Logger logger = LoggerFactory.getLogger(CodeGenerateController.class);
 
-    @PostMapping("")
+    @PostMapping("/code")
     public ResponseEntity<Response> GenerateCode(@RequestBody TableDto tableDto, @RequestHeader HttpHeaders headers) {
         logger.info("generate code");
         return ResponseEntity.ok(codeGenerateService.genereateCode(tableDto, headers));
