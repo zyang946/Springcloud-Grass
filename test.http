@@ -1,5 +1,5 @@
 @hostname=localhost
-@port=8330
+@port=8328
 @Content-Type=application/json
 @userName=admin
 @password=public
@@ -55,5 +55,5 @@ POST  http://{{hostname}}:{{port}}/apply/deleteApply HTTP/1.1
 Content-Type: {{Content-Type}}
 
 {
-    "id": 3
+    "id": 4
 }

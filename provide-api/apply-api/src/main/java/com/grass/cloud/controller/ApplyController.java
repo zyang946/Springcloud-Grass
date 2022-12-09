@@ -12,6 +12,9 @@ import org.springframework.http.HttpHeaders;
 import static org.springframework.http.ResponseEntity.ok;
 import org.springframework.http.HttpEntity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 import java.util.List;
@@ -31,6 +34,8 @@ import java.util.List;
 @RequestMapping("/apply")
 public class ApplyController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplyController.class);
+
     @Autowired
     private IApplyService iApplyService;
 
@@ -49,6 +54,7 @@ public class ApplyController {
     @RequestParam(value = "limit", required=false) Integer limit,
     @RequestParam(value = "sort", required=false) String sort,
     @RequestHeader HttpHeaders headers) {
+        LOGGER.info("查询我的申请中。。。");
         return ok(this.iApplyService.findAllApplys(from_id, page, limit, sort, headers));
     }
 
@@ -60,6 +66,7 @@ public class ApplyController {
     @RequestParam(value = "limit", required=false) Integer limit,
     @RequestParam(value = "sort", required=false) String sort,
     @RequestHeader HttpHeaders headers) {
+        LOGGER.info("查询我的审批中。。。");
         return ok(this.iApplyService.findAllApplysTo(to_id, page, limit, sort, headers));
     }
 
@@ -74,6 +81,7 @@ public class ApplyController {
     // @CrossOrigin(origins = "*")
     // @ApiOperation("addApply")
     public HttpEntity addApply(@RequestHeader HttpHeaders headers, @RequestBody Apply apply){
+        LOGGER.info("提交申请中。。。");
         return ok(iApplyService.insertApply(apply, headers));
     }
 
@@ -81,6 +89,7 @@ public class ApplyController {
     // @CrossOrigin(origins = "*")
     // @ApiOperation("addApply")
     public HttpEntity approval(@RequestHeader HttpHeaders headers, @RequestBody Apply approval){
+        LOGGER.info("审批申请中。。。");
         return ok(iApplyService.updateApply(approval, headers));
     }
 
@@ -88,6 +97,7 @@ public class ApplyController {
     // @CrossOrigin(origins = "*")
     // @ApiOperation("addApply")
     public HttpEntity delete(@RequestHeader HttpHeaders headers, @RequestBody Apply apply){
+        LOGGER.info("删除申请中。。。");
         Integer id = apply.getId();
         return ok(iApplyService.deleteApply(id, headers));
     }
