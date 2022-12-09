@@ -2,6 +2,9 @@ package com.grass.cloud.service.impl;
 
 import com.springboot.cloud.util.Response;
 import com.sun.media.jfxmedia.logging.Logger;
+
+import com.grass.cloud.entity.User;
+
 import com.alibaba.fastjson.JSONObject;
 import com.grass.cloud.entity.Apply;
 import com.grass.cloud.mapper.IApplyMapper;
@@ -109,6 +112,30 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Override
     public Response insertApply(Apply apply, HttpHeaders headers) {
+        Integer from_id = apply.getFrom_id();
+        System.out.println(from_id);
+        User from = iApplyMapper.findUserById(from_id);
+        System.out.println(1);
+        String student_id = from.getStudent_id();
+        System.out.println(student_id);
+        String from_name = from.getUser_name();
+        System.out.println(from_name);
+        String department = from.getDepartment();
+        System.out.println(department);
+        String phone = from.getPhone();
+        System.out.println(phone);
+        String  senior_id = from.getSenior_id();
+        System.out.println(senior_id);
+        User to = iApplyMapper.findUserByStudentId(senior_id);
+        System.out.println(2);
+        String to_name = to.getUser_name();
+        Integer to_id = to.getUser_id();
+        apply.setStudent_id(student_id);
+        apply.setFrom_name(from_name);
+        apply.setTo_name(to_name);
+        apply.setTo_id(to_id);
+        apply.setDepartment(department);
+        apply.setPhone(phone);
         int yes = iApplyMapper.insertApply(apply);
         return new Response<>(1, "success", apply);
         // return iApplyMapper.insertApply(apply);
