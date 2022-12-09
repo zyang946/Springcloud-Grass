@@ -95,7 +95,7 @@ public class UserController {
             UserWithSeniorDto userWithSeniorDto = UserWithSeniorDto.builder()
                     .userId(user.getUserId())
                     .id(user.getStudentId())
-                    .name(user.getUsername())
+                    .name(user.getRealUserName())
                     .department(user.getDepartment())
                     .phone(user.getPhone())
                     .to_id(user.getSeniorId())
