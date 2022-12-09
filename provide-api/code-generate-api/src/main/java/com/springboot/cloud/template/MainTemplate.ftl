@@ -1,4 +1,4 @@
-package com.generate.code
+package com.generate.code;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

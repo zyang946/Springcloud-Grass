@@ -37,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Response findById(String Id, HttpHeaders headers) {
-        List<Student> Students = StudentRepositoryInstance.findById(Id);
+        List<Student> Students = StudentRepositoryInstance.findBySid(Id);
         if (Students.size() != 0)
             return new Response<>(1, "success", Students);
         return new Response<>(0, "empty", Id);
