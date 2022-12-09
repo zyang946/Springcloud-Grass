@@ -20,6 +20,8 @@ public interface UserService {
 
     List<User> getAllUsers(PageDto pageDto, HttpHeaders headers);
 
+    List<User> getAllTeachers(String department, HttpHeaders headers);
+
     long getUserCount();
 
     User createDefaultAuthUser(AuthDto dto);

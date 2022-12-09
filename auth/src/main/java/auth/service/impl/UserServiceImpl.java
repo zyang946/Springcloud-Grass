@@ -3,6 +3,7 @@ package auth.service.impl;
 import com.springboot.cloud.util.Response;
 import com.springboot.cloud.util.StringUtils;
 
+import auth.constant.AuthConstant;
 import auth.constant.InfoConstant;
 import auth.dto.AuthDto;
 import auth.dto.MenusDto;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Predicate;
 
@@ -96,6 +98,13 @@ public class UserServiceImpl implements UserService {
         };
         Page<User> page = userRepository.findAll(specification, pageable);
         return page.getContent();
+    }
+
+    @Override
+    public List<User> getAllTeachers(String department, HttpHeaders headers) {
+        return userRepository.findByDepartment(department).stream().filter(
+                user -> user.getRoles().contains(AuthConstant.ROLE_TEACHER)
+        ).collect(Collectors.toList());
     }
 
     @Override
