@@ -2,7 +2,7 @@ package com.generate.code.controller;
 
 import com.generate.code.entity.${name};
 import com.generate.code.service.${name}Service;
-import com.springboot.cloud.util.Response;
+import com.generate.code.util.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

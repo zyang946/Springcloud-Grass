@@ -2,7 +2,7 @@ package com.springboot.cloud.controller;
 
 import com.springboot.cloud.dto.TableDto;
 import com.springboot.cloud.service.CodeGenerateService;
-import com.springboot.cloud.util.Response;
+import com.springboot.cloud.utils.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class CodeGenerateController {
     private CodeGenerateService codeGenerateService;
     private static final Logger logger = LoggerFactory.getLogger(CodeGenerateController.class);
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Response> GenerateCode(@RequestBody TableDto tableDto, @RequestHeader HttpHeaders headers) {
         logger.info("generate code");
         return ResponseEntity.ok(codeGenerateService.genereateCode(tableDto, headers));

@@ -1,6 +1,6 @@
 package com.springboot.cloud.service.Impl;
 
-import com.springboot.cloud.util.Response;
+import com.springboot.cloud.utils.Response;
 import com.springboot.cloud.utils.CodeGenerateUtils;
 import com.springboot.cloud.dto.ColumnDto;
 import com.springboot.cloud.dto.TableDto;
@@ -21,25 +21,11 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
     private static String entityPath;
     private static List<ColumnDto> columnDtos = new ArrayList<>();
     private static final String TEMPLATE_PATH = "provide-api/code-generate-api/src/main/java/com/springboot/cloud/template";
-    private void generateDir(String entityName) throws IOException {
-        String basePath = new File("").getAbsolutePath();
-        entityPath = basePath + "/provide-api/" + entityName + "-api";
-        File entityFile = new File(entityPath);
-        System.out.println(entityFile.getAbsolutePath());
-        entityFile.mkdirs();
-        //创建pom，service，controller，entity，repository的文件夹
-        new File(entityFile + "/pom.xml").createNewFile();
-        new File(entityFile + "/src/main/resources").mkdirs();
-        new File(entityFile + "/src/main/java/com/generate/code/controller/").mkdirs();
-        new File(entityFile + "/src/main/java/com/generate/code/service/").mkdirs();
-        new File(entityFile + "/src/main/java/com/generate/code/service/impl").mkdirs();
-        new File(entityFile + "/src/main/java/com/generate/code/repository").mkdirs();
-        new File(entityFile + "/src/main/java/com/generate/code/entity/").mkdirs();
-    }
     public Response genereateCode(TableDto tableDto, HttpHeaders header) {
         getEntityPath(tableDto.getTableName());
         generatePom(tableDto.getTableName());
         generateApplication(tableDto.getTableName());
+        generateUtil();
         generateEntity(tableDto);
         generateRepository(tableDto);
         generateService(tableDto);
@@ -80,6 +66,21 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
             dataMap.put("port", port.toString());
             Template template = configuration.getTemplate("ApplicationTemplate.ftl");
             File docFile = new File(entityPath + "/src/main/resources/application.yml");
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            template.process(dataMap, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void generateUtil() {
+        Configuration configuration = new Configuration();
+        Writer out = null;
+        try {
+            new File(entityPath + "/src/main/java/com/generate/code/util/").mkdirs();
+            configuration.setDirectoryForTemplateLoading(new File(TEMPLATE_PATH));
+            Map<String, Object> dataMap = new HashMap<>();
+            Template template = configuration.getTemplate("UtilTemplate.ftl");
+            File docFile = new File(entityPath + "/src/main/java/com/generate/code/util/Response.java");
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
             template.process(dataMap, out);
         } catch (Exception e) {
@@ -222,6 +223,7 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
         columnDtoList.add(new ColumnDto("String", "password", false, false));
         columnDtoList.add(new ColumnDto("String", "name", false, true));
         tableDto.setColumnDtoList(columnDtoList);
+        codeGenerateService.generateUtil();
         codeGenerateService.generateEntity(tableDto);
         codeGenerateService.generateRepository(tableDto);
         codeGenerateService.generateService(tableDto);

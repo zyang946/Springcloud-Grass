@@ -7,7 +7,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableSwagger2
 public class ${name}Application {
     public static void main(String[] args) {
         SpringApplication.run(${name}Application.class);

@@ -3,7 +3,7 @@ package com.generate.code.service.impl;
 import com.generate.code.entity.${name};
 import com.generate.code.repository.${name}Repository;
 import com.generate.code.service.${name}Service;
-import com.springboot.cloud.util.Response;
+import com.generate.code.util.Response;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
