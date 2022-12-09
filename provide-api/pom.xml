@@ -15,7 +15,6 @@
         <module>test-api</module>
         <module>apply-api</module>
         <module>code-generate-api</module>
-        <module>student-api</module>
     </modules>
 
     <properties>
