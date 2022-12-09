@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         } else {
             mySort = Sort.by(Sort.Direction.DESC, "studentId");
         }
-        Pageable pageable = PageRequest.of(pageDto.getPage(), pageDto.getLimit(), mySort);
+        Pageable pageable = PageRequest.of(pageDto.getPage() - 1, pageDto.getLimit(), mySort);
         Specification<User> specification = (root, criteriaQuery, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
             String studentId = pageDto.getId();
