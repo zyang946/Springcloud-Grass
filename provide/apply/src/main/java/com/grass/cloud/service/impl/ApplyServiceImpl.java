@@ -89,6 +89,7 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Override
     public Response updateApply(Apply apply, HttpHeaders headers) {
+        System.out.println(apply);
         String serviceUrl = getServiceUrl();
         HttpEntity requestEntity = new HttpEntity(apply, headers);
         ResponseEntity<Response> re = restTemplate.exchange(

@@ -8,6 +8,7 @@ import com.grass.cloud.entity.User;
 import com.alibaba.fastjson.JSONObject;
 import com.grass.cloud.entity.Apply;
 import com.grass.cloud.mapper.IApplyMapper;
+import com.grass.cloud.repository.ApplyRepository;
 import com.grass.cloud.mapper.IApplyMapper;
 import com.grass.cloud.service.IApplyService;
 import com.grass.cloud.service.IApplyService;
@@ -39,6 +40,8 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Autowired
     IApplyMapper iApplyMapper;
+    @Autowired
+    ApplyRepository applyRepository;
 
     @Override
     public Response findApplyById(Integer id, HttpHeaders headers) {
@@ -143,7 +146,10 @@ public class ApplyServiceImpl implements IApplyService {
 
     @Override
     public Response updateApply(Apply apply, HttpHeaders headers) {
-        int yes = iApplyMapper.updateApply(apply);
+        // int yes = iApplyMapper.updateApply(apply);
+        // iApplyMapper.save(apply);
+        System.out.println(apply);
+        applyRepository.save(apply);
         return new Response<>(1, "success", apply);
         // return iApplyMapper.insertApply(apply);
     }

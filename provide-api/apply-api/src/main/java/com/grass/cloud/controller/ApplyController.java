@@ -90,6 +90,7 @@ public class ApplyController {
     // @ApiOperation("addApply")
     public HttpEntity approval(@RequestHeader HttpHeaders headers, @RequestBody Apply approval){
         LOGGER.info("审批申请中。。。");
+        System.out.println(approval);
         return ok(iApplyService.updateApply(approval, headers));
     }
 

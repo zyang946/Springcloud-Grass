@@ -81,6 +81,7 @@ public class ApplyController {
     // @CrossOrigin(origins = "*")
     // @ApiOperation("addApply")
     public HttpEntity approval(@RequestHeader HttpHeaders headers, @RequestBody Apply approval){
+        System.out.println(approval);
         return ok(iApplyService.updateApply(approval, headers));
     }
 

@@ -3,6 +3,8 @@ package com.grass.cloud.entity;
 
 import javax.persistence.*;
 
+import lombok.Data;
+
 /**
  *
  * Mybatis 需要加上这些注解才可以使用，不然启动都会报错；
@@ -10,47 +12,57 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "apply")
+@Data
 public class Apply {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column
-  private Integer id;
+  private Integer id; // aid
 
   @Column
-  private Integer from_id;
+  private Integer from_id; // 学生的uid
 
   @Column
-  private String from_name;
+  private String student_id; // 学生的sid
 
   @Column
-  private Integer to_id;
+  private String from_name; // 学生的name
 
   @Column
-  private String to_name;
+  private String department; // 学生的院系
 
   @Column
-  private String from_time;
+  private String phone; // 学生的联系方式
 
   @Column
-  private String to_time;
+  private Integer to_id; // 辅导员的uid
 
   @Column
-  private String start_time;
+  private String to_name; // 辅导员的name
 
   @Column
-  private String end_time;
+  private String from_time; // 提交申请的时间
 
   @Column
-  private String destination;
+  private String to_time; // 审批的时间
 
   @Column
-  private String reason;
+  private String start_time; // 申请出校开始时间
 
   @Column
-  private String comment;
+  private String end_time; // 申请出校结束时间
 
   @Column
-  private Integer status;
+  private String destination; // 目的地
+
+  @Column
+  private String reason; // 理由
+
+  @Column
+  private String comment; // 审批意见
+
+  @Column
+  private Integer status; // 审批状态
 
   public Integer getId() {
     return id;
@@ -155,4 +167,30 @@ public class Apply {
   public void setTo_name(String to_name) {
     this.to_name = to_name;
   }
+
+
+  public String getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(String department) {
+    this.department = department;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getStudent_id() {
+    return student_id;
+  }
+
+  public void setStudent_id(String student_id) {
+    this.student_id = student_id;
+  }
+  
 }
