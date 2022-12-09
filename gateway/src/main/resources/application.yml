@@ -52,6 +52,10 @@ spring:
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:test}
           predicates:
             - Path=/test/**
+        - id: apply
+          uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:apply}
+          predicates:
+            - Path=/apply/**
   main:
     allow-bean-definition-overriding: true
 management:
