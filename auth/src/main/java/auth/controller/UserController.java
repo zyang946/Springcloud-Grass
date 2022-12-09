@@ -68,9 +68,11 @@ public class UserController {
             Set<String> menus = new HashSet<>();
             for (String role : user.getRoles()) {
                 RoleToMenu roleToMenu = userService.getRoleToMenuByRole(role);
-                menus.addAll(roleToMenu.getMenus().stream().map(
-                        MenusDto::getMenuKey
-                ).collect(Collectors.toList()));
+                if (roleToMenu != null) {
+                    menus.addAll(roleToMenu.getMenus().stream().map(
+                            MenusDto::getMenuKey
+                    ).collect(Collectors.toList()));
+                }
             }
             PermissionDto permission = new PermissionDto(new ArrayList<>(menus), new ArrayList<>());
             map.put("permission", permission);
