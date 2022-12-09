@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface StudentRepository  extends CrudRepository<Student, String> {
     List<Student> findAll();
     void delete(Student Studentdto);
-    List<Student> findById(String Id);
+    List<Student> findBySid(String Id);
     void deleteById(String Id);
     List<Student> findByName(String Name);
     void deleteByName(String Name);

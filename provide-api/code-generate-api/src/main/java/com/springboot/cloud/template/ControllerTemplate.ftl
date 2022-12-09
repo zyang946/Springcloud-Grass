@@ -25,7 +25,7 @@ public class ${name}Controller {
     @PostMapping("/createAndupdate")
     public ResponseEntity<Response> createAndupdate(@RequestBody ${name} ${name}dto, @RequestHeader HttpHeaders headers) {
         logger.info("create or update new ${name}");
-        return ResponseEntity.ok(${name}ServiceIntance.createAndUpdate(${name}dto, headers));
+        return ResponseEntity.ok(${name}ServiceIntance.createAndupdate(${name}dto, headers));
     }
 
     @DeleteMapping("/delete")

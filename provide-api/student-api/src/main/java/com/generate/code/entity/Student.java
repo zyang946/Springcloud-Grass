@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Student{
     @Id
     @Column(length = 36)
-    private String id;
+    private String sid;
 
     private String name;
 
