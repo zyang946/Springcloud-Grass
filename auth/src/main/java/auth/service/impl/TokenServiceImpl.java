@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -34,12 +35,16 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public Response getToken(BasicAuthDto dto, HttpHeaders headers) {
         String id = dto.getId();
         String password = dto.getPassword();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id, password);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(id,
+                passwordEncoder.encode(password));
         try {
             authenticationManager.authenticate(token);
         } catch (AuthenticationException e) {
