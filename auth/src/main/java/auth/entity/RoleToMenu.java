@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "role_menu")
-public class RoleToMenu {
+public class RoleToMenu implements Serializable {
+    private static final long serialVersionUID = -9002279279716870352L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
@@ -38,6 +41,6 @@ public class RoleToMenu {
     private String description;
 
     @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "role"))
+    @CollectionTable(joinColumns = @JoinColumn(name = "role", referencedColumnName = "role"))
     private Set<MenusDto> menus = new HashSet<>();
 }
