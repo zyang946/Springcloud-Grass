@@ -14,4 +14,10 @@ public class InfoConstant {
     public static final String ROLES = "roles";
 
     public static final String DEFAULT_PASSWORD = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92";
+    public static final String APPLY_KEY = "apply";
+    public static final String APPLY_NAME = "出入校申请";
+    public static final String REVIEW_KEY = "review";
+    public static final String REVIEW_NAME = "出入校审批";
+    public static final String MANAGE_KEY = "manage";
+    public static final String MANAGE_NAME = "出入校权限管理";
 }

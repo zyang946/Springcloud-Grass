@@ -5,6 +5,7 @@ import com.springboot.cloud.util.Response;
 
 import auth.dto.AuthDto;
 import auth.dto.PageDto;
+import auth.dto.RoleDto;
 import auth.dto.UserWithSeniorDto;
 import auth.entity.RoleToMenu;
 import auth.entity.User;
@@ -30,4 +31,10 @@ public interface UserService {
     RoleToMenu getRoleToMenuByRole(String role);
 
     List<RoleToMenu> getAllRoles();
+
+    Response createRole(RoleDto roleDto);
+
+    Response updateRole(RoleDto roleDto);
+
+    Response deleteRole(Integer id);
 }

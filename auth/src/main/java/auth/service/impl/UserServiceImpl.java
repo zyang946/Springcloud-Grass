@@ -5,7 +5,9 @@ import com.springboot.cloud.util.StringUtils;
 
 import auth.constant.InfoConstant;
 import auth.dto.AuthDto;
+import auth.dto.MenusDto;
 import auth.dto.PageDto;
+import auth.dto.RoleDto;
 import auth.dto.UserWithSeniorDto;
 import auth.entity.RoleToMenu;
 import auth.entity.User;
@@ -191,6 +193,35 @@ public class UserServiceImpl implements UserService {
         return (List<RoleToMenu>) roleRepository.findAll();
     }
 
+    @Override
+    public Response createRole(RoleDto roleDto) {
+        Set<MenusDto> set = setPermission(roleDto.getPermissions());
+        RoleToMenu role = RoleToMenu.builder()
+                .role(roleDto.getName())
+                .description(roleDto.getDescription())
+                .menus(set)
+                .build();
+        roleRepository.save(role);
+        return new Response<>(1, "success", 0);
+    }
+
+    @Override
+    public Response updateRole(RoleDto roleDto) {
+        RoleToMenu role = roleRepository.findByUid(roleDto.getId());
+        role.setRole(roleDto.getName());
+        role.setDescription(roleDto.getDescription());
+        Set<MenusDto> set = setPermission(roleDto.getPermissions());
+        role.setMenus(set);
+        roleRepository.save(role);
+        return new Response<>(1, "success", 0);
+    }
+
+    @Override
+    public Response deleteRole(Integer id) {
+        roleRepository.deleteByUid(id);
+        return new Response<>(1, "success", 0);
+    }
+
     private void checkUserCreateInfo(User user) {
         LOGGER.info("[checkUserCreateInfo][Check user create info][userId: {}, id: {}]", user.getUserId(),
                 user.getUsername());
@@ -217,5 +248,33 @@ public class UserServiceImpl implements UserService {
             LOGGER.warn(infos.toString());
             throw new UserOperationException(infos.toString());
         }
+    }
+
+    private Set<MenusDto> setPermission(List<String> permission) {
+        Set<MenusDto> set = new HashSet<>();
+        for (String str : permission) {
+            if (str.equals(InfoConstant.MANAGE_KEY)) {
+                MenusDto menusDto = MenusDto.builder()
+                        .menuKey(InfoConstant.MANAGE_KEY)
+                        .name(InfoConstant.MANAGE_NAME)
+                        .build();
+                set.add(menusDto);
+            }
+            if (str.equals(InfoConstant.REVIEW_KEY)) {
+                MenusDto menusDto = MenusDto.builder()
+                        .menuKey(InfoConstant.REVIEW_KEY)
+                        .name(InfoConstant.REVIEW_NAME)
+                        .build();
+                set.add(menusDto);
+            }
+            if (str.equals(InfoConstant.APPLY_KEY)) {
+                MenusDto menusDto = MenusDto.builder()
+                        .menuKey(InfoConstant.APPLY_KEY)
+                        .name(InfoConstant.APPLY_NAME)
+                        .build();
+                set.add(menusDto);
+            }
+        }
+        return set;
     }
 }

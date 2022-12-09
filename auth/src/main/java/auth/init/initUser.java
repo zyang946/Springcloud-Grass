@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 @Component
@@ -25,10 +26,10 @@ public class initUser implements CommandLineRunner {
         User whetherExistAdmin = userRepository.findByStudentId("root").orElse(new User());
         if (whetherExistAdmin.getUsername() == null) {
             User admin = User.builder()
-                    .userId(0)
+                    .userId(1)
                     .userName("root")
                     .password(passwordEncoder.encode(InfoConstant.DEFAULT_PASSWORD))
-                    .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))
+                    .roles(new HashSet<>(Collections.singletonList(AuthConstant.ROLE_ADMIN)))
                     .build();
             userRepository.save(admin);
         }

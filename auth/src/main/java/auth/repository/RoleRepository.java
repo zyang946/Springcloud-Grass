@@ -5,4 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface RoleRepository extends CrudRepository<RoleToMenu, String> {
     RoleToMenu findByRole(String role);
+
+    void deleteByUid(Integer uid);
+
+    RoleToMenu findByUid(Integer uid);
 }

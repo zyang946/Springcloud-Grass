@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: ${NACOS_ADDRS:127.0.0.1:8848}
   application:
     name: auth
   datasource:
@@ -19,6 +19,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
 
-
-swagger:
-  controllerPackage: auth.auth.controller
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
