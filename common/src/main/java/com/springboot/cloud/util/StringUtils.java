@@ -1,35 +1,39 @@
 package com.springboot.cloud.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.Date;
+import java.util.Locale;
 
 public class StringUtils {
-    public static String String2Lower(String str){
-        if(str == null || str.isEmpty()) {
+    public static String String2Lower(String str) {
+        if (str == null || str.isEmpty()) {
             return str;
         }
         return str.replace(" ", "").toLowerCase(Locale.ROOT);
     }
 
-    public static Date String2Date(String str){
+    public static Date String2Date(String str) {
         SimpleDateFormat formatter;
-        if(str.length() > 10){
+        if (str.length() > 10) {
             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        }else{
+        } else {
             formatter = new SimpleDateFormat("yyyy-MM-dd");
         }
 
-        try{
+        try {
             Date d = formatter.parse(str);
             return d;
-        }catch(Exception e){
+        } catch (Exception e) {
             return new Date(0);
         }
     }
 
-    public static String Date2String(Date date){
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static String Date2String(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return formatter.format(date);
+    }
+
+    public static boolean isNotBlank(String str) {
+        return str != null && !str.equals("");
     }
 }

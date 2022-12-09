@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class TokenDto implements Serializable {
     private static final long serialVersionUID = -705634925002848304L;
-    private String userId;
+    private Integer userId;
     private String id;
     private String token;
 }

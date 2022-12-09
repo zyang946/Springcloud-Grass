@@ -1,6 +1,7 @@
 package auth.init;
 
 import auth.constant.AuthConstant;
+import auth.constant.InfoConstant;
 import auth.entity.User;
 import auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.UUID;
 
 @Component
 public class initUser implements CommandLineRunner {
@@ -22,12 +22,12 @@ public class initUser implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User whetherExistAdmin = userRepository.findByStudentId("18373526").orElse(new User());
+        User whetherExistAdmin = userRepository.findByStudentId("root").orElse(new User());
         if (whetherExistAdmin.getUsername() == null) {
             User admin = User.builder()
-                    .userId(UUID.randomUUID().toString())
-                    .userName("18373526")
-                    .password(passwordEncoder.encode("123456"))
+                    .userId(0)
+                    .userName("root")
+                    .password(passwordEncoder.encode(InfoConstant.DEFAULT_PASSWORD))
                     .roles(new HashSet<>(Arrays.asList(AuthConstant.ROLE_ADMIN)))
                     .build();
             userRepository.save(admin);

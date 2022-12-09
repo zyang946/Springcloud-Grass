@@ -32,10 +32,10 @@ spring:
         locator:
           enabled: false
       routes:
-        - id: auth-user
+        - id: auth
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:auth}
           predicates:
-            - Path=/auth/**
+            - Path=/role/**
         - id: auth
           uri: lb://${ADMIN_BASIC_INFO_SERVICE_HOST:auth}
           predicates:

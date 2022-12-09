@@ -3,7 +3,10 @@ package auth.controller;
 import com.springboot.cloud.util.Response;
 
 import auth.dto.BasicAuthDto;
-import auth.dto.Permission;
+import auth.dto.MenusDto;
+import auth.dto.PageDto;
+import auth.dto.PermissionDto;
+import auth.dto.UserWithSeniorDto;
 import auth.entity.RoleToMenu;
 import auth.entity.User;
 import auth.exception.UserOperationException;
@@ -14,9 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -64,9 +65,11 @@ public class UserController {
             Set<String> menus = new HashSet<>();
             for (String role : user.getRoles()) {
                 RoleToMenu roleToMenu = userService.getRoleToMenuByRole(role);
-                menus.addAll(roleToMenu.getMenus());
+                menus.addAll(roleToMenu.getMenus().stream().map(
+                        MenusDto::getMenuKey
+                ).collect(Collectors.toList()));
             }
-            Permission permission = new Permission(new ArrayList<>(menus), new ArrayList<>());
+            PermissionDto permission = new PermissionDto(new ArrayList<>(menus), new ArrayList<>());
             map.put("permission", permission);
             return ResponseEntity.ok(new Response<>(1, "success", map));
         } catch (UserOperationException e) {
@@ -75,15 +78,40 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUser(@RequestHeader HttpHeaders headers) {
+    @PostMapping("/getUsers")
+    public ResponseEntity<Response> getAllUser(@RequestBody PageDto pageDto, @RequestHeader HttpHeaders headers) {
         logger.info("[getAllUser][Get all users]");
-        return ResponseEntity.ok().body(userService.getAllUsers(headers));
+        HashMap<String, Object> res = new HashMap<>();
+        long total = userService.getUserCount();
+        res.put("total", total);
+        List<User> list = userService.getAllUsers(pageDto, headers);
+        List<UserWithSeniorDto> userList = new ArrayList<>();
+        for (User user : list) {
+            UserWithSeniorDto userWithSeniorDto = UserWithSeniorDto.builder()
+                    .userId(user.getUserId())
+                    .id(user.getStudentId())
+                    .name(user.getUsername())
+                    .department(user.getDepartment())
+                    .phone(user.getPhone())
+                    .to_id(user.getSeniorId())
+                    .to_name(userService.getUserInfoById(user.getSeniorId(), headers).getUsername())
+                    .roles(new ArrayList<>(user.getRoles())).build();
+            userList.add(userWithSeniorDto);
+        }
+        res.put("userList", userList);
+        return ResponseEntity.ok().body(new Response<>(1, "success", res));
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Response> deleteUserById(@PathVariable String userId, @RequestHeader HttpHeaders headers) {
+    @PostMapping("/deleteUser")
+    public ResponseEntity<Response> deleteUserById(@RequestParam("userId") Integer userId,
+                                                   @RequestHeader HttpHeaders headers) {
         logger.info("[deleteUserById][Delete user][userId: {}]", userId);
-        return ResponseEntity.ok(userService.deleteById(userId, headers));
+        return ResponseEntity.ok(userService.deleteByUserId(userId, headers));
+    }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<Response> updateUser(@RequestBody UserWithSeniorDto userWithSeniorDto,
+                                               @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(userService.updateUser(userWithSeniorDto, headers));
     }
 }

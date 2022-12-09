@@ -18,6 +18,8 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
@@ -31,8 +33,9 @@ import javax.persistence.Table;
 @Table(name = "auth_user")
 public class User implements UserDetails {
     @Id
-    @Column(length = 36, name = "user_id")
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
 
     /**
      * 学号 --- 用来登录
@@ -62,10 +65,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
-
-    public String getUserId() {
-        return this.userId;
     }
 
     @Override

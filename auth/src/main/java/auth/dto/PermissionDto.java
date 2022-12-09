@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission implements Serializable {
+public class PermissionDto implements Serializable {
     private static final long serialVersionUID = -9046350549000430012L;
-    List<String> menus;
-    List<String> points;
+    private List<String> menus;
+    private List<String> points;
 }

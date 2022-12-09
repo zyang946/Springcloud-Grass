@@ -12,4 +12,6 @@ public class InfoConstant {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String ROLES = "roles";
+
+    public static final String DEFAULT_PASSWORD = "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92";
 }
