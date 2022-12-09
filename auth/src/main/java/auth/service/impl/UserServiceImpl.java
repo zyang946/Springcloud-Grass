@@ -36,7 +36,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,9 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserInfoById(String studentId, HttpHeaders headers) {
-        return userRepository.findByStudentId(studentId).orElseThrow(
-                () -> new UserOperationException(MessageFormat.format(InfoConstant.ID_NOT_FOUND, studentId))
-        );
+        return userRepository.findByStudentId(studentId).orElse(null);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class UserServiceImpl implements UserService {
             }
             return predicate;
         };
+
         Page<User> page = userRepository.findAll(specification, pageable);
         return page.getContent();
     }
