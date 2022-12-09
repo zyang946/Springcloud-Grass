@@ -26,7 +26,7 @@ public class initUser implements CommandLineRunner {
         if (whetherExistAdmin.getUsername() == null) {
             User admin = User.builder()
                     .userId(1)
-                    .userName("root")
+                    .studentId("root")
                     .password(passwordEncoder.encode(InfoConstant.DEFAULT_PASSWORD))
                     .roles(new HashSet<>(Collections.singletonList(AuthConstant.ROLE_ADMIN)))
                     .build();
