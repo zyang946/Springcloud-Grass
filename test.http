@@ -14,7 +14,7 @@ Content-Type: {{Content-Type}}
 GET http://{{hostname}}:{{port}}/apply/listFrom?from_id=0&page=1&limit=3&sort=-time HTTP/1.1
 Content-Type: {{Content-Type}}
 ###
-GET http://{{hostname}}:{{port}}/apply/listTo?to_id=1 HTTP/1.1
+GET http://{{hostname}}:{{port}}/apply/listTo?to_id=1&page=1&limit=3&sort=-time HTTP/1.1
 Content-Type: {{Content-Type}}
 ###
 POST  http://{{hostname}}:{{port}}/apply/addApply HTTP/1.1

@@ -62,11 +62,11 @@ public class ApplyServiceImpl implements IApplyService {
     }
 
     @Override
-    public Response findAllApplysTo(Integer to_id, HttpHeaders headers) {
+    public Response findAllApplysTo(Integer to_id, int page, int limit, String sort, HttpHeaders headers) {
         String serviceUrl = getServiceUrl();
         HttpEntity requestEntity = new HttpEntity(headers);
         ResponseEntity<Response> re = restTemplate.exchange(
-                serviceUrl + "/apply/listTo?to_id=" + to_id,
+                serviceUrl + String.format("/apply/listTo?to_id=%d&page=%d&limit=%d&sort=%s", to_id, page, limit, sort),
                 HttpMethod.GET,
                 requestEntity,
                 Response.class);

@@ -25,7 +25,7 @@ public interface IApplyService {
     Response findApplyById(Integer id, HttpHeaders headers);
 
     Response findAllApplys(String from_id, Integer page, Integer limit, String sort, HttpHeaders headers);
-    Response findAllApplysTo(String to_id, HttpHeaders headers);
+    Response findAllApplysTo(String to_id, Integer page, Integer limit, String sort, HttpHeaders headers);
 
     Response insertApply(Apply apply, HttpHeaders headers);
     Response updateApply(Apply apply, HttpHeaders headers);

@@ -55,8 +55,12 @@ public class ApplyController {
     @GetMapping("/listTo")
     // @CrossOrigin(origins = "*")
     // @ApiOperation("findApplyList")
-    public HttpEntity findApplyListTo(@RequestParam(value = "to_id", required=false) Integer to_id,  @RequestHeader HttpHeaders headers) {
-        return ok(this.iApplyService.findAllApplysTo(to_id, headers));
+    public HttpEntity findApplyListTo(@RequestParam(value = "to_id", required=false) Integer to_id,  
+    @RequestParam(value = "page", required=false) int page,  
+    @RequestParam(value = "limit", required=false) int limit,
+    @RequestParam(value = "sort", required=false) String sort,
+    @RequestHeader HttpHeaders headers) {
+        return ok(this.iApplyService.findAllApplysTo(to_id, page, limit, sort, headers));
     }
 
     /**
