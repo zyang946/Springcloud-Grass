@@ -9,6 +9,7 @@ import auth.dto.AuthDto;
 import auth.dto.MenusDto;
 import auth.dto.PageDto;
 import auth.dto.RoleDto;
+import auth.dto.TeacherDto;
 import auth.dto.UserWithSeniorDto;
 import auth.entity.RoleToMenu;
 import auth.entity.User;
@@ -106,10 +107,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllTeachers(String department, HttpHeaders headers) {
+    public List<TeacherDto> getAllTeachers(String department, HttpHeaders headers) {
         return userRepository.findByDepartment(department).stream().filter(
                 user -> user.getRoles().contains(AuthConstant.ROLE_TEACHER)
-        ).collect(Collectors.toList());
+        ).map(user -> new TeacherDto(user.getUserId(), user.getRealUserName()))
+                .collect(Collectors.toList());
     }
 
     @Override

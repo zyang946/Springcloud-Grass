@@ -102,6 +102,7 @@ public class UserController {
                     .to_name(userService.getUserInfoById(user.getSeniorId(), headers) != null ?
                             userService.getUserInfoById(user.getSeniorId(), headers).getRealUserName() : null)
                     .roles(new ArrayList<>(user.getRoles())).build();
+            logger.info("[to_id, {}][to_name, {}]", user.getSeniorId(), userService.getUserInfoById(user.getSeniorId(), headers));
             userList.add(userWithSeniorDto);
         }
         res.put("userList", userList);

@@ -6,6 +6,7 @@ import com.springboot.cloud.util.Response;
 import auth.dto.AuthDto;
 import auth.dto.PageDto;
 import auth.dto.RoleDto;
+import auth.dto.TeacherDto;
 import auth.dto.UserWithSeniorDto;
 import auth.entity.RoleToMenu;
 import auth.entity.User;
@@ -20,7 +21,7 @@ public interface UserService {
 
     List<User> getAllUsers(PageDto pageDto, HttpHeaders headers);
 
-    List<User> getAllTeachers(String department, HttpHeaders headers);
+    List<TeacherDto> getAllTeachers(String department, HttpHeaders headers);
 
     long getUserCount();
 
