@@ -1,6 +1,7 @@
 package auth.controller;
 
 import com.springboot.cloud.util.Response;
+import com.springboot.cloud.util.StringUtils;
 
 import auth.dto.BasicAuthDto;
 import auth.dto.MenusDto;
@@ -92,15 +93,16 @@ public class UserController {
         List<User> list = userService.getAllUsers(pageDto, headers);
         List<UserWithSeniorDto> userList = new ArrayList<>();
         for (User user : list) {
+            String seniorId = StringUtils.isNotBlank(user.getSeniorId()) ? user.getSeniorId() : null;
             UserWithSeniorDto userWithSeniorDto = UserWithSeniorDto.builder()
                     .userId(user.getUserId())
                     .id(user.getStudentId())
                     .name(user.getRealUserName())
                     .department(user.getDepartment())
                     .phone(user.getPhone())
-                    .to_id(Integer.parseInt(user.getSeniorId()))
-                    .to_name(userService.getUserInfoByUserId(user.getSeniorId(), headers) != null ?
-                            userService.getUserInfoByUserId(user.getSeniorId(), headers).getRealUserName() : null)
+                    .to_id(seniorId != null ? Integer.parseInt(seniorId) : null)
+                    .to_name(userService.getUserInfoByUserId(seniorId != null ? seniorId : "-1", headers) != null ?
+                            userService.getUserInfoByUserId(seniorId != null ? seniorId : "-1", headers).getRealUserName() : null)
                     .roles(new ArrayList<>(user.getRoles())).build();
             logger.info("[to_id, {}][to_name, {}]", user.getSeniorId(), userService.getUserInfoById(user.getSeniorId(), headers));
             userList.add(userWithSeniorDto);
