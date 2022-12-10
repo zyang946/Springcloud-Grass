@@ -161,7 +161,7 @@ public class ApplyServiceImpl implements IApplyService {
         System.out.println(phone);
         String  senior_id = from.getSenior_id();
         System.out.println(senior_id);
-        User to = iApplyMapper.findUserByStudentId(senior_id);
+        User to = iApplyMapper.findUserById(Integer.parseInt(senior_id));
         System.out.println(2);
         String to_name = to.getUser_name();
         Integer to_id = to.getUser_id();
