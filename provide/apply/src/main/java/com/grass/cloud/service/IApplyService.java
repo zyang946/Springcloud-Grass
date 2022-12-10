@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 public interface IApplyService {
 
     Response findApplyById(Integer id, HttpHeaders headers);
+    Response findApplyAll(int page, int limit, String sort, HttpHeaders headers);
 
     Response findAllApplys(int from_id, int page, int limit, String sort, HttpHeaders headers);
     Response findAllApplysTo(Integer to_id, int page, int limit, String sort, HttpHeaders headers);
