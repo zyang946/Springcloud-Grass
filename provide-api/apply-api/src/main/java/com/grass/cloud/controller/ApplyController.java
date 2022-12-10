@@ -46,6 +46,17 @@ public class ApplyController {
         return ok(this.iApplyService.findApplyById(id, headers));
     }
 
+    @GetMapping("/all")
+    // @CrossOrigin(origins = "*")
+    // @ApiOperation("findApplyById")
+    public HttpEntity findApplyAll(
+        @RequestParam(value = "page", required=false) Integer page,  
+        @RequestParam(value = "limit", required=false) Integer limit,
+        @RequestParam(value = "sort", required=false) String sort,
+        @RequestHeader HttpHeaders headers) {
+        return ok(this.iApplyService.findApplyAll(page, limit, sort, headers));
+    }
+
     @GetMapping("/listFrom")
     // @CrossOrigin(origins = "*")
     // @ApiOperation("findApplyList")

@@ -51,6 +51,38 @@ public class ApplyServiceImpl implements IApplyService {
     }
 
     @Override
+    public Response findApplyAll(Integer page, Integer limit, String sort, HttpHeaders headers) {
+        List<Apply> applyList = iApplyMapper.findApplyAll();
+        int total = applyList.size();
+        // System.out.println(sort);
+        if(sort.equals("-time")) {
+            // Collections.reverse(applyList);
+            // System.out.println(applyList);
+            Collections.sort(applyList, new Comparator<Apply>() {
+                @Override
+                public int compare(Apply p1, Apply p2) {
+                    return p2.getFrom_time().compareTo(p1.getFrom_time());
+                }
+            });
+        } else {
+            Collections.sort(applyList, new Comparator<Apply>() {
+                @Override
+                public int compare(Apply p1, Apply p2) {
+                    return p1.getFrom_time().compareTo(p2.getFrom_time());
+                }
+            });
+        }
+        // System.out.println(applyList);
+        List<Apply> subList = applyList.stream().skip((page - 1) * limit).limit(limit).collect(Collectors.toList());
+        JSONObject object = new JSONObject();
+        object.put("total", total);
+        object.put("applyList", subList);
+        return new Response<>(1, "success", object);
+        // return new Response<>(1,"success", apply);
+        // return iApplyMapper.findApplyById(id);
+    }
+
+    @Override
     public Response findAllApplys(String from_id, Integer page, Integer limit, String sort, HttpHeaders headers) {
         List<Apply> applyList = iApplyMapper.findAllApplys(from_id);
         int total = applyList.size();

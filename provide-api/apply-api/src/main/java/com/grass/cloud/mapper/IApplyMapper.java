@@ -26,6 +26,9 @@ public interface IApplyMapper {
     @Select("select * from apply where id = #{id}")
     Apply findApplyById(Integer id);
 
+    @Select("select * from apply")
+    List<Apply> findApplyAll();
+
     @Select("select * from auth_user where user_id = #{id}")
     User findUserById(Integer id);
 
