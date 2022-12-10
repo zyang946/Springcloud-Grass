@@ -98,7 +98,7 @@ public class UserController {
                     .name(user.getRealUserName())
                     .department(user.getDepartment())
                     .phone(user.getPhone())
-                    .to_id(user.getSeniorId())
+                    .to_id(Integer.parseInt(user.getSeniorId()))
                     .to_name(userService.getUserInfoById(user.getSeniorId(), headers) != null ?
                             userService.getUserInfoById(user.getSeniorId(), headers).getRealUserName() : null)
                     .roles(new ArrayList<>(user.getRoles())).build();

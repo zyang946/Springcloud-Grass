@@ -17,7 +17,7 @@ public class UserWithSeniorDto {
     private String name;
     private String department;
     private String phone;
-    private String to_id;
+    private Integer to_id;
     private String to_name;
     private List<String> roles;
 }

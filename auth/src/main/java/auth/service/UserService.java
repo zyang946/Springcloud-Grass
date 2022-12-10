@@ -19,6 +19,8 @@ public interface UserService {
 
     User getUserInfoById(String studentId, HttpHeaders headers);
 
+    User getUserInfoByUserId(String userId, HttpHeaders headers);
+
     List<User> getAllUsers(PageDto pageDto, HttpHeaders headers);
 
     List<TeacherDto> getAllTeachers(String department, HttpHeaders headers);

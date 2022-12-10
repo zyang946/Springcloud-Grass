@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserInfoByUserId(String userId, HttpHeaders headers) {
+        return userRepository.findByUserId(Integer.parseInt(userId)).orElse(null);
+    }
+
+    @Override
     public List<User> getAllUsers(PageDto pageDto, HttpHeaders headers) {
         String sort = pageDto.getSort();
         // 按照id递增
@@ -158,7 +163,7 @@ public class UserServiceImpl implements UserService {
                     .userName(userWithSeniorDto.getName())
                     .department(userWithSeniorDto.getDepartment())
                     .phone(userWithSeniorDto.getPhone())
-                    .seniorId(userWithSeniorDto.getTo_id())
+                    .seniorId(String.valueOf(userWithSeniorDto.getTo_id()))
                     .roles(new HashSet<>(userWithSeniorDto.getRoles()))
                     .build();
             createDefaultAuthUser(authDto);
@@ -174,7 +179,7 @@ public class UserServiceImpl implements UserService {
             String userName = userWithSeniorDto.getName();
             String department = userWithSeniorDto.getDepartment();
             String phone = userWithSeniorDto.getPhone();
-            String seniorId = userWithSeniorDto.getTo_id();
+            String seniorId = String.valueOf(userWithSeniorDto.getTo_id());
             Set<String> roles = new HashSet<>(userWithSeniorDto.getRoles());
             if (StringUtils.isNotBlank(studentId)) {
                 user.setStudentId(studentId);
